@@ -78,4 +78,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Print workflow output
-        run: echo "${{ needs.deploy.output.result }}"
+        run: echo "${{ needs.deploy.outputs.result }}"
