@@ -9,15 +9,25 @@ on:
     secrets:
       some-secret:
         required: false
+    outputs:
+      result:
+        description: The result of deployment operation 
+        value: ${{ jobs.deploy.outputs.result }}
 
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    outputs:
+      result: ${{ steps.set-output.outputs.step-result }}
     steps:
       - name: Get code
+        id: get-artefact
         uses: actions/download-artifact@v3
         with:
           name: ${{ inputs.artifact_name }}
       - name: Output information 
         run: echo "Deploying & uploading ..."
+      - name: Set result output
+        id: set-output
+        run: echo "step-result=${{ steps.get-artefact.outcome }}" >> $GITHUB_OUTPUT
